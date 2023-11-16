@@ -52,5 +52,4 @@ def get_og(url):
         elif e == 404:
             return "error", {"details": "Destination URL not found"}
         else:
-            print(e)
-            return "error", {"details": "Unknown error"}
+            return "error", {"details": e}
