@@ -52,4 +52,4 @@ def get_og(url):
         elif e == 404:
             return "error", {"details": "Destination URL not found"}
         else:
-            return "error", {"details": e}
+            return "error", {"details": str(e)}
