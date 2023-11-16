@@ -6,7 +6,7 @@ def get_og(url):
     try:
 
             headers = {
-                'Host': url.split("/")[2],
+                'Host': "idaniel.dev",
                 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:84.0) Gecko/20100101 Firefox/84.0'
             }
 
