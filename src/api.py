@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 from fastapi import FastAPI, Response
 import json
-
-from src.routes.og import get_og
+from routes.mods import get_mod
+from routes.og import get_og
 
 load_dotenv()
 
@@ -17,3 +17,9 @@ async def og(url: str = None):
         return data
     else:
         return Response(status_code=400, content=json.dumps(data))
+    
+@app.get("/mods/{id}")
+async def mods(id: str = None):
+    if id is None:
+        return Response(status_code=400, content="{\"details\": \"No ID provided\"}")
+    return get_mod(id)
