@@ -1,33 +1,43 @@
 import requests
 from bs4 import BeautifulSoup
 
-search_url = f"https://smods.ru/?s={id}"
-
 def get_mod(id):
     try:
         # Make the initial request to the search URL
-        search_response = requests.get(search_url)
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+        }
+
+        session = requests.Session()
+
+        search_response = session.get(f"https://smods.ru/?s={id}", headers=headers)
+
         search_html = search_response.text
 
         # Parse the HTML using BeautifulSoup
         soup = BeautifulSoup(search_html, 'html.parser')
 
         # Find the link using the appropriate selector
-        entry_link = soup.css.find('.entry .skymods-excerpt-btn')['href']
+        entry_link = soup.select_one('.entry .skymods-excerpt-btn')['href']
+        
+        # downlaod url
+        download_response = session.post(entry_link, {
+            "op": "download2",
+            "id": entry_link.split("/")[3],
+        }, headers=headers)
 
-        # Make a second request to the found link
-        mod_response = requests.get(entry_link)
-        mod_html = mod_response.text
+        download_html = download_response.text
 
-        # Parse the HTML of the mod page
-        mod_soup = BeautifulSoup(mod_html, 'html.parser')
+        soup = BeautifulSoup(download_html, 'html.parser')
 
-        # Find the download link using the appropriate selector
-        download_link = mod_soup.select_one('.download-button')['href']
+        download_link = soup.select_one('.download-file-btn a')
 
-        # Return the download link
-        return {"url": download_link}
-
+        if download_link is None:
+            return entry_link
+        else:
+            return download_link['href']
+    
     except Exception as e:
         print(e)
         return "error", {"details": "Could not find mod with that ID"}
