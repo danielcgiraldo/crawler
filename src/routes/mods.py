@@ -1,12 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 
-def get_mod(id):
+def get_mod(id, user_agent):
     try:
         # Make the initial request to the search URL
 
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+            'User-Agent': user_agent
         }
 
         session = requests.Session()

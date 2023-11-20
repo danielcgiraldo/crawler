@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 import json
 from src.routes.mods import get_mod
@@ -31,7 +31,10 @@ async def og(url: str = None):
         return Response(status_code=400, content=json.dumps(data))
     
 @app.get("/mods/{id}")
-async def mods(id: str = None):
+async def mods(request: Request, id: str = None):
+    # get user-agent from request
+    user_agent = request.headers.get('User-Agent')
+
     if id is None:
         return Response(status_code=400, content="{\"details\": \"No ID provided\"}")
-    return get_mod(id)
+    return get_mod(id, user_agent)
