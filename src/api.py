@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 import json
-from src.routes.mods import get_mod
+from routes.mods import get_mod
 from routes.og import get_og
 
 load_dotenv()
