@@ -3,10 +3,22 @@ from fastapi import FastAPI, Response
 import json
 from routes.mods import get_mod
 from routes.og import get_og
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
 app = FastAPI()
+
+origins = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET"]
+)
 
 @app.get("/og")
 async def og(url: str = None):
