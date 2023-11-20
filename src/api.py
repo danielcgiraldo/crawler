@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 from fastapi import FastAPI, Response
 import json
-from src.routes.mods import get_mod
-from src.routes.og import get_og
+from routes.mods import get_mod
+from routes.og import get_og
 
 load_dotenv()
 
