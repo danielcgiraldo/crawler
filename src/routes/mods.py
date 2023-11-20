@@ -34,9 +34,9 @@ def get_mod(id):
         download_link = soup.select_one('.download-file-btn a')
 
         if download_link is None:
-            return entry_link
+            return {"download_url": entry_link}
         else:
-            return download_link['href']
+            return {"download_url": download_link['href']}
     
     except Exception as e:
         print(e)
